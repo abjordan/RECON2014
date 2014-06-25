@@ -12,7 +12,7 @@ module uart_tx(
   output reg dout);
   
   reg [7:0] data;
-  reg [1:0] state;
+  reg [2:0] state;
   reg [2:0] cnt;
   reg [8:0] etu_cnt;
   
@@ -38,6 +38,8 @@ module uart_tx(
     case(state)
       `UART_START:
       begin
+        rdy <= 1'd1;
+        
         if (en) begin
           dout <= 1'd0;
           cnt <= 3'd0;
@@ -75,7 +77,14 @@ module uart_tx(
       begin
         if (etu_full) begin
           etu_cnt <= 9'd0;
-          rdy <= 1'd1;
+          state <= `UART_IDLE2;
+        end
+      end
+      
+      `UART_IDLE2:
+      begin
+        if (etu_full) begin
+          etu_cnt <= 9'd0;
           state <= `UART_START;
         end
       end
