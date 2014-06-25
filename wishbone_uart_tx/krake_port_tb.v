@@ -199,6 +199,14 @@ begin
   wait (krake_porti.tx_rdy == 1);
   #1 wb_read(`UART_STATUS);
   #1 if(read_data != 8'b00000001) $stop;
+  
+  #1 wb_write(`UART_DATAREG, 8'b00001111);
+  #1 wb_write(`UART_STATUS, 8'b00000001);
+  #1 wb_read(`UART_STATUS);
+  wait (krake_porti.tx_rdy == 1);
+  #1 wb_read(`UART_STATUS);
+  #1 if(read_data != 8'b00000001) $stop;
+    
 
   //#1 wb_read(`PORT_CONF);
   //#1 wb_write(`PORT_CONF,8'hff);
