@@ -56,7 +56,7 @@ wire  [5:0] ch_in;
 wire  [5:0] ch_out;
 wire  [5:0] ch_oe;
 
-krake_tx_port krake_porti(
+krake_port_tx2 krake_porti(
     .clk_i(tb_clk),
     .rst_i(tb_rst),
     .ack_o(tb_ack_i),
@@ -65,7 +65,13 @@ krake_tx_port krake_porti(
     .dat_o(tb_dat_i),
     .stb_i(tb_stb_o),
     .we_i(tb_we_o),
-    .dout(tb_dout));
+    .ch_in(ch_in),
+    .ch_out(ch_out),
+    .ch_oe(ch_oe),
+    .clka(clka),
+    .clkb(clkb),
+    .clkc(clkc),
+    .clkd(clkd));
 
 assign ch_in[0] = ch_oe[0] ? ch_out[0] : 1'bz;
 assign ch_in[1] = ch_oe[1] ? ch_out[1] : 1'bz;
